@@ -26,7 +26,7 @@ namespace Recepedia.Models
         [Required(ErrorMessage = "Ingrese una foto")]
 
         public string NombreFoto { get; set; }
-        public List<Receta> _Favoritos { get; set; }
+        public List<Receta>? Favoritos { get; set; }
 
 
         public Usuario() { }
@@ -41,7 +41,7 @@ namespace Recepedia.Models
             Contraseña = contraseña;
             Admin = admin;
             NombreFoto = nom_foto;
-            _Favoritos = favs;
+            Favoritos = favs;
         }
     }
 }
