@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -58,12 +60,16 @@ namespace Recepedia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IDUsuario,Nombre_Usuario,Nombre,Apellido,Mail,Contraseña,RepetirContraseña,Admin,NombreFoto")] Usuario usuario)
         {
-            //usuario._Favoritos = null;
-            if (ModelState.IsValid)
+            if (ValidarContrasena(usuario.Contraseña, usuario.RepetirContraseña))
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    usuario.Contraseña = EncriptarContrasena(usuario.Contraseña);
+                    usuario.RepetirContraseña = EncriptarContrasena(usuario.RepetirContraseña);
+                    _context.Add(usuario);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(usuario);
         }
@@ -100,6 +106,8 @@ namespace Recepedia.Controllers
             {
                 try
                 {
+                    usuario.Contraseña = EncriptarContrasena(usuario.Contraseña);
+                    usuario.RepetirContraseña = EncriptarContrasena(usuario.RepetirContraseña);
                     _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
@@ -159,6 +167,41 @@ namespace Recepedia.Controllers
         private bool UsuarioExists(int id)
         {
           return (_context.Usuario?.Any(e => e.IDUsuario == id)).GetValueOrDefault();
+        }
+
+        private bool ValidarContrasena(string contra1, string contra2)
+        {
+            return contra1 == contra2;
+        }
+        private static string EncriptarContrasena(string contra)
+        {
+            // Generar una sal aleatoria para añadir seguridad
+            byte[] salt = GenerateSalt();
+
+            // Concatenar la contraseña y la sal
+            byte[] passwordBytes = Encoding.UTF8.GetBytes(contra);
+            byte[] saltedPassword = new byte[passwordBytes.Length + salt.Length];
+            Buffer.BlockCopy(passwordBytes, 0, saltedPassword, 0, passwordBytes.Length);
+            Buffer.BlockCopy(salt, 0, saltedPassword, passwordBytes.Length, salt.Length);
+
+            // Calcular el hash SHA-256
+            using SHA256 sha256 = SHA256.Create();
+            byte[] hashBytes = sha256.ComputeHash(saltedPassword);
+
+            // Convertir el hash a una cadena hexadecimal
+            string hashedPassword = BitConverter.ToString(hashBytes).Replace("-", string.Empty);
+            return hashedPassword;
+        }
+
+        // Función para generar una sal aleatoria
+        private static byte[] GenerateSalt()
+        {
+            byte[] salt = new byte[16]; // Puedes ajustar la longitud de la sal
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(salt);
+            }
+            return salt;
         }
     }
 }
