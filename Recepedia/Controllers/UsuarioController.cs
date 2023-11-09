@@ -20,6 +20,20 @@ namespace Recepedia.Controllers
         {
             _context = context;
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+        public async Task<IActionResult> LoginOK(string email, string pass)
+        {
+            var usuario = await _context.Usuario.FirstOrDefaultAsync(m => m.Contraseña == pass && m.Mail == email);
+            if (usuario == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            return RedirectToAction("Details", new { id = usuario.IDUsuario });
+        }
 
         // GET: Usuario
         public async Task<IActionResult> Index()
@@ -30,9 +44,9 @@ namespace Recepedia.Controllers
         }
 
         // GET: Usuario/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null || _context.Usuario == null)
+            if (_context.Usuario == null)
             {
                 return NotFound();
             }
@@ -43,7 +57,7 @@ namespace Recepedia.Controllers
             {
                 return NotFound();
             }
-
+            Session["Usuario"] = usuario;
             return View(usuario);
         }
 
