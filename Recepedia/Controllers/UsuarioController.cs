@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Recepdia.Context;
 using Recepedia.Models;
@@ -32,6 +27,7 @@ namespace Recepedia.Controllers
                 return RedirectToAction("Login");
             }
 
+            //Session["Usuario"] = usuario;
             return RedirectToAction("Details", new { id = usuario.IDUsuario });
         }
 
@@ -57,7 +53,6 @@ namespace Recepedia.Controllers
             {
                 return NotFound();
             }
-            Session["Usuario"] = usuario;
             return View(usuario);
         }
 
