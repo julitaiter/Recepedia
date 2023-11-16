@@ -13,6 +13,8 @@ namespace Recepdia.Context
         public DbSet<Dificultad> Dificultad { get; set; }
         public DbSet<Ingrediente> Ingrediente{ get; set; }
         public DbSet<Usuario> Usuario{ get; set; }
+        public DbSet<Favorito> Favoritos { get; set; }
+
     }
 }
 

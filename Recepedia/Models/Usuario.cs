@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using Recepdia.Context;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Recepedia.Models
@@ -42,6 +44,22 @@ namespace Recepedia.Models
             Admin = admin;
             NombreFoto = nom_foto;
             Favoritos = favs;
+        }
+
+        public static Usuario TraerUsuarioPorId(RecepediaContext context,int id)
+        {
+            return context.Usuario.FirstOrDefault(u => u.IDUsuario == id);
+        }
+
+        public static List<Receta> TraerFavoritos(RecepediaContext context, int id)
+        {
+            List<Favorito> favoritos = context.Favoritos.Where(r => r.IdUsuario == id).ToList();
+            List<Receta> recetasFav = new List<Receta>();
+            foreach (Favorito fav in favoritos)
+            {
+                recetasFav.Add(context.Receta.Find(fav.IdReceta));
+            }
+            return recetasFav;
         }
     }
 }

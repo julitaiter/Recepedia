@@ -12,6 +12,14 @@ namespace Recepedia
             builder.Services.AddDbContext<RecepediaContext>(options =>options.UseSqlServer(builder.Configuration["ConnectionString:RecepediaDBConnection"]));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDistributedMemoryCache();
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             var app = builder.Build();
 
@@ -34,6 +42,7 @@ namespace Recepedia
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            app.UseSession();
             app.Run();
         }
     }

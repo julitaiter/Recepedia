@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Drawing;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace Recepedia.Controllers
             }
 
             //Session["Usuario"] = usuario;
+            //System.Web.HttpContext.Current.Session["Usuario"] = usuario;
+            HttpContext.Session.SetString("Usuario", usuario.IDUsuario.ToString());
             return RedirectToAction("Details", new { id = usuario.IDUsuario });
         }
 
