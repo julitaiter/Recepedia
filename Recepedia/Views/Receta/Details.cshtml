@@ -53,6 +53,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IDReceta">Edit</a> |
+    @if (this.Context.Session.GetString("Usuario") != null && int.Parse(this.Context.Session.GetString("Usuario")) == Model.Autor)
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.IDReceta">Editar</a>
+    }
     <a asp-action="Index">Back to List</a>
 </div>

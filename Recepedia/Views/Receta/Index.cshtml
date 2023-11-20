@@ -4,10 +4,17 @@
     ViewData["Title"] = "Recetas";
 }
 
-<h1>Index</h1>
+<h1>TODAS LAS RECETAS</h1>
 
 <p>
-    <a asp-action="Create">Subir receta</a>
+    @if (this.Context.Session.GetString("Usuario") != null)
+    {
+        <a asp-action="Create">Subir receta</a>
+    }
+    else
+    {
+        <a href="@Url.Action("Login", "Usuario")">Subir receta</a>
+    }
 </p>
 <table class="table">
     <thead>
@@ -61,9 +68,12 @@
                 @Html.DisplayFor(modelItem => item.Autor)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IDReceta">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IDReceta">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IDReceta">Delete</a>
+                @if (this.Context.Session.GetString("Usuario") != null && int.Parse(this.Context.Session.GetString("Usuario")) == item.Autor)
+                {
+                    <a asp-action="Edit" asp-route-id="@item.IDReceta">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.IDReceta">Borrar</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.IDReceta">Ver</a>
             </td>
         </tr>
 }

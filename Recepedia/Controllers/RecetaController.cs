@@ -22,7 +22,7 @@ namespace Recepedia.Controllers
         // GET: Receta
         public async Task<IActionResult> Index()
         {
-              return _context.Receta != null ? 
+            return _context.Receta != null ? 
                           View(await _context.Receta.ToListAsync()) :
                           Problem("Entity set 'RecepediaContext.Receta'  is null.");
         }
@@ -58,6 +58,12 @@ namespace Recepedia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IDReceta,NombreReceta,Preparacion,TiempoPreparacion,CantidadPlatos,NombreFoto,Cant_Likes,Autor")] Receta receta)
         {
+            receta.idCategoria = 3;
+            receta.idDificultad = 2;
+            receta.Ingredientes = new List<Ingrediente>();
+            receta.Cant_Likes = 0;
+            receta.Autor = int.Parse(HttpContext.Session.GetString("Usuario"));
+            receta.NombreFoto = "";
             if (ModelState.IsValid)
             {
                 _context.Add(receta);

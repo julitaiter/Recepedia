@@ -181,7 +181,7 @@ namespace Recepedia.Controllers
           return (_context.Usuario?.Any(e => e.IDUsuario == id)).GetValueOrDefault();
         }
 
-        private bool ValidarContrasena(string contra1, string contra2)
+        private static bool ValidarContrasena(string contra1, string contra2)
         {
             return contra1 == contra2;
         }

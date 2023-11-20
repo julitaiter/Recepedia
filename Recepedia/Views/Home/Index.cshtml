@@ -29,65 +29,6 @@
     <script src="~/Content/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 <body>
-    <section class="cd-hero">
-        <ul class="cd-hero-slider autoplay">
-            <!--
-                <ul class="cd-hero-slider autoplay"> for slider auto play
-                <ul class="cd-hero-slider"> for disabled auto play
-            -->
-            <li class="selected first-slide">
-                <div class="cd-full-width">
-                    <div class="tm-slide-content-div slide-caption">
-                        <span>Nunca ha sido tan fácil</span>
-                        <h2>Buscar recetas</h2>
-                        <p>Tan sólo ingresar un ingrediente alcanza para ver cientos de recetas que podrás hacer con este.</p>
-                        <div class="primary-button">
-                            <a href='@Url.Action("BuscarXIng", "Home")'>Buscar por ingrediente</a>
-                        </div>
-                    </div>
-                </div> <!-- .cd-full-width -->
-            </li>
-
-            <li class="second-slide">
-                <div class="cd-full-width">
-                    <div class="tm-slide-content-div slide-caption">
-                        <span>Nunca ha sido tan fácil</span>
-                        <h2>Buscar recetas</h2>
-                        <p>Tan sólo ingresar un ingrediente alcanza para ver cientos de recetas que podrás hacer con este.</p>
-                        <div class="primary-button">
-                            <a href='@Url.Action("BuscarXIng", "Home")'>Buscar por ingredientes</a>
-                        </div>
-                    </div>
-                </div> <!-- .cd-full-width -->
-            </li>
-
-            <li class="third-slide">
-                <div class="cd-full-width">
-                    <div class="tm-slide-content-div slide-caption">
-                        <span>Nunca ha sido tan fácil</span>
-                        <h2>Buscar recetas</h2>
-                        <p>Tan sólo ingresar un ingrediente alcanza para ver cientos de recetas que podrás hacer con este.</p>
-                        <div class="primary-button">
-                            <a href='@Url.Action("BuscarXIng", "Home")'>Buscar por ingredientes</a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul> <!-- .cd-hero-slider -->
-
-        <div class="cd-slider-nav">
-            <nav>
-                <span class="cd-marker item-1"></span>
-
-                <ul>
-                    <li class="selected"><a href="#0"></a></li>
-                    <li><a href="#0"></a></li>
-                    <li><a href="#0"></a></li>
-                </ul>
-            </nav>
-        </div> <!-- .cd-slider-nav -->
-    </section> <!-- .cd-hero -->
-
     <div id="about" class="page-section">
         <div class="container">
             <div class="row">
@@ -100,39 +41,39 @@
             </div>
             <div class="row">
                 @{
-                    string idUsuarioString = 1.ToString(); //HttpContext.Session.GetString("Usuario");
+                    //Usuario usuario = ViewBag.Usuario;
+                    string? idUsuario = this.Context.Session.GetString("Usuario");//"1";// HttpContext.Session.GetString("Usuario");
                 }
                 @foreach (Receta LaReceta in ViewBag.ListaRecetas)
                 {
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="service-item first-service">
                             <img class="FotosIndex" src="~/Content/Fotos/Recetas/@LaReceta.NombreFoto" alt="@LaReceta.NombreFoto" />
-                            <a class="NombreReceta" href='@Url.Action("ViewReceta", "Home", new { IDLaReceta = LaReceta.IDReceta })'> <h4> @LaReceta.NombreReceta</h4> </a> <br />
+                            <a class="NombreReceta" href='@Url.Action("Details", "Receta", new { id = LaReceta.IDReceta })'> <h4> @LaReceta.NombreReceta</h4> </a> <br />
                             <div class="first-service icon">
-                                @if (idUsuarioString != null)
+                                @if (idUsuario != null)
                                 {
-                                    int idUsuario = int.Parse(idUsuarioString);
-                                    if (idUsuario == LaReceta.Autor)
-                                {
-                                <div class="editarRec">
-                                    @Html.ActionLink("Editar receta", "ModificarReceta", "Home", new { IDLaReceta = LaReceta.IDReceta }, null)<br />
+                                    int id = int.Parse(idUsuario);
+                                    if (id == LaReceta.Autor)
+                                    {
+                                        <div class="editarRec">
+                                        @Html.ActionLink("Editar receta", "ModificarReceta", "Home", new { IDLaReceta = LaReceta.IDReceta }, null)<br />
                                         </div>
                                     }
-                                    Usuario user = Usuario.TraerUsuarioPorId(ViewBag.Context,idUsuario);
-                                    user.Favoritos = Usuario.TraerFavoritos(ViewBag.Context, idUsuario);
-                                if (user.Favoritos.Contains(LaReceta))
-                                {
-                                <a href="@Url.Action("Favoritos", "Home", new { IDRecetaFav = LaReceta.IDReceta, IdUsu= user.IDUsuario, modo = "Eliminar", view = "Index"})"><img src="~/Content/Fotos/Otros/Heart_Icon_Filled.png" alt="Heart_Icon_Filled" /></a>
-
+                                    Usuario usuario = Usuario.TraerUsuarioPorId(ViewBag.Context, id);
+                                    usuario.Favoritos = Usuario.TraerFavoritos(ViewBag.Context, id);
+                                    if (usuario.Favoritos.Contains(LaReceta))
+                                    {
+                                        <a href="@Url.Action("Favoritos", "Home", new { IDRecetaFav = LaReceta.IDReceta, IdUsu= usuario.IDUsuario, modo = "Eliminar", view = "Index"})"><img src="~/Content/Fotos/Otros/Heart_Icon_Filled.png" alt="Heart_Icon_Filled" /></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Favoritos", "Home", new { IDRecetaFav = LaReceta.IDReceta, IdUsu= usuario.IDUsuario, modo = "Insertar", view = "Index"})"><img src="~/Content/Fotos/Otros/Heart_Icon.png" alt="Heart_Icon" /></a>
+                                    }
                                 }
                                 else
                                 {
-                                <a href="@Url.Action("Favoritos", "Home", new { IDRecetaFav = LaReceta.IDReceta, IdUsu= user.IDUsuario, modo = "Insertar", view = "Index"})"><img src="~/Content/Fotos/Otros/Heart_Icon.png" alt="Heart_Icon" /></a>
-                                }
-                                }
-                                else
-                                {
-                                <a href="@Url.Action("Login", "Usuarios")"><img src="~/Content/Fotos/Otros/Heart_Icon.png" alt="Agregar a Favoritos" /></a>
+                                    <a href="@Url.Action("Login", "Usuario")"><img src="~/Content/Fotos/Otros/Heart_Icon.png" alt="Agregar a Favoritos" /></a>
                                 }
 
                             </div>

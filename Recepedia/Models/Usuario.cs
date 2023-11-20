@@ -46,7 +46,7 @@ namespace Recepedia.Models
             Favoritos = favs;
         }
 
-        public static Usuario TraerUsuarioPorId(RecepediaContext context,int id)
+        public static Usuario TraerUsuarioPorId(RecepediaContext context, int id)
         {
             return context.Usuario.FirstOrDefault(u => u.IDUsuario == id);
         }
