@@ -10,13 +10,13 @@ namespace Recepedia.Models
         public int IdCategoria { get; set; }
         public string Nom_Categoria { get; set; }
 
-        /*public Categoria()
+        public Categoria()
         {
         }
         public Categoria(int id, string nom)
         {
             IdCategoria = id;
             Nom_Categoria = nom;
-        }*/
+        }
     }
 }

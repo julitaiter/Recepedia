@@ -58,9 +58,12 @@ namespace Recepedia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IDReceta,NombreReceta,Preparacion,TiempoPreparacion,CantidadPlatos,NombreFoto,Cant_Likes,Autor")] Receta receta)
         {
-            receta.idCategoria = 3;
-            receta.idDificultad = 2;
-            receta.Ingredientes = new List<Ingrediente>();
+            receta.Categoria = new Categoria(3, "Carnes");
+            receta.Dificultad = new Dificultad(1, "Facil");
+            receta.Ingredientes = new List<Ingrediente>
+            {
+                new Ingrediente(2, "Leche", "200gr")
+            };
             receta.Cant_Likes = 0;
             receta.Autor = int.Parse(HttpContext.Session.GetString("Usuario"));
             receta.NombreFoto = "";
