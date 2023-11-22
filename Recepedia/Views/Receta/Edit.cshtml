@@ -19,10 +19,25 @@
                 <span asp-validation-for="NombreReceta" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Categoria</label>
+                <select class="form-control" asp-for="CategoriaIdCategoria" asp-items="ViewBag.Categorias">
+                    <option value="">Seleccione uno</option>
+                </select>
+                <span asp-validation-for="CategoriaIdCategoria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Dificultad</label>
+                <select class="form-control" asp-for="DificultadIdDificultad" asp-items="ViewBag.Dificultades">
+                    <option value="">Seleccione uno</option>
+                </select>
+                <span asp-validation-for="DificultadIdDificultad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Preparacion" class="control-label"></label>
                 <input asp-for="Preparacion" class="form-control" />
                 <span asp-validation-for="Preparacion" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="TiempoPreparacion" class="control-label"></label>
                 <input asp-for="TiempoPreparacion" class="form-control" />

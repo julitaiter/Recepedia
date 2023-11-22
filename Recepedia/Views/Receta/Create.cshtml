@@ -3,7 +3,65 @@
 @{
     ViewData["Title"] = "Create";
 }
+<head>
+    <script>
+        a = 1;
+        function addIngrediente() {
 
+            //Valida campos (Ignora el primero)
+            if (a == 1) {
+                var inputs = document.getElementById("_Div1").querySelectorAll("input");
+                var Vacios = false;
+                for (var ElInput in inputs) {
+                    Valor = inputs[ElInput];
+                    if (typeof Valor == "object") {
+                        if (Valor.value == "") {
+                            Vacios = true;
+                        }
+                    }
+                }
+            }
+            else {
+                var inputs = document.getElementById("ingredientes").querySelectorAll("input");
+                var Vacios = false;
+                for (var ElInput in inputs) {
+                    Valor = inputs[ElInput];
+                    if (typeof Valor == "object") {
+                        if (Valor.value == "") {
+                            Vacios = true;
+                        }
+                    }
+                }
+            }
+
+
+            if (Vacios == false) {
+                //Agrega los campos
+                a++;
+                var div = document.createElement('div');
+                div.setAttribute('class', 'form-inline');
+                div.setAttribute('id', '_Div' + a);
+                div.innerHTML = '<div style="clear:both"><input class="CantidadIngrediente_SubirReceta" name="_Cantidad' + a + '" id="_Cantidad' + a + '" type="text" placeholder="Cantidad" spellcheck="true" required/></div><div class="col-md-2"><input class="NombreIngrediente_SubirReceta" name="_Nombre' + a + '" id="_Nombre' + a + '" type="text" placeholder="Nombre del ingrediente" spellcheck="true" required/></div><br/><br/><br/><br/>';
+                document.getElementById('ingredientes').appendChild(div); document.getElementById('ingredientes').appendChild(div);
+            }
+            else {
+                alert("Ingrese el ingrediente correctamente");
+            }
+        }
+
+        function RemoveIngrediente() {
+
+            if (a > 1) {
+                $('#_Cantidad' + a).remove();
+                $('#_Nombre' + a).remove();
+                $('#_Div' + a).remove();
+                a--;
+            }
+        }
+
+    </script>
+
+</head>
 <h1>Create</h1>
 
 <h4>Receta</h4>
@@ -18,8 +76,38 @@
                 <span asp-validation-for="NombreReceta" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Categoria</label>
+                <select class="form-control" asp-for="CategoriaIdCategoria" asp-items="ViewBag.Categorias">
+                    <option value="">Seleccione una categoría</option>
+                </select>
+                <span asp-validation-for="CategoriaIdCategoria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Dificultad</label>
+                <select class="form-control" asp-for="DificultadIdDificultad" asp-items="ViewBag.Dificultades">
+                    <option value="">Seleccione una dificultad</option>
+                </select>
+                <span asp-validation-for="DificultadIdDificultad" class="text-danger"></span>
+            </div>
+            <label asp-for="Ingredientes" class="control-label">Ingredientes</label>
+            <div class="row2">
+                <div class="form-inline" id="_Div1">
+                    <div style="clear:both">
+                        <input asp-for="Ingredientes" class="CantidadIngrediente_SubirReceta" name="_Cantidad1" id="_Cantidad1" type="text" placeholder="Cantidad" spellcheck="true" required />
+                    </div>
+                    <div class="col-md-2">
+                        <input asp-for="Ingredientes" class="NombreIngrediente_SubirReceta" name="_Nombre1" id="_Nombre1" type="text" placeholder="Nombre del ingrediente" spellcheck="true" required />
+                    </div>
+                </div>
+            </div>
+                <div class="row2" id="ingredientes">
+            </div>
+            <div class="btnAgregar_SubirReceta">
+                <div><input type="button" class="btn btn-success" id="add_ingrediente()" onClick="addIngrediente()" value="+" /> <input type="button" class="btn btn-danger" id="remove_ingrediente()" onClick="RemoveIngrediente()" value="-" /></div>
+            </div>
+            <div class="form-group">
                 <label asp-for="Preparacion" class="control-label"></label>
-                <input asp-for="Preparacion" class="form-control" />
+                <textarea asp-for="Preparacion" class="form-control" ></textarea>
                 <span asp-validation-for="Preparacion" class="text-danger"></span>
             </div>
             <div class="form-group">

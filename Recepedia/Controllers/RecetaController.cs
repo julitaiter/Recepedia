@@ -48,6 +48,10 @@ namespace Recepedia.Controllers
         // GET: Receta/Create
         public IActionResult Create()
         {
+            var categorias = _context.Categoria.ToList();
+            ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nom_Categoria");
+            var dificultades = _context.Dificultad.ToList();
+            ViewBag.Dificultades = new SelectList(dificultades, "IDDificultad", "NombreDificultad");
             return View();
         }
 
@@ -56,14 +60,8 @@ namespace Recepedia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IDReceta,NombreReceta,Preparacion,TiempoPreparacion,CantidadPlatos,NombreFoto,Cant_Likes,Autor")] Receta receta)
+        public async Task<IActionResult> Create([Bind("IDReceta,NombreReceta,CategoriaIdCategoria,Preparacion,TiempoPreparacion,CantidadPlatos,DificultadIdDificultad,Ingredientes,NombreFoto,Cant_Likes,Autor")] Receta receta)
         {
-            receta.Categoria = new Categoria(3, "Carnes");
-            receta.Dificultad = new Dificultad(1, "Facil");
-            receta.Ingredientes = new List<Ingrediente>
-            {
-                new Ingrediente(2, "Leche", "200gr")
-            };
             receta.Cant_Likes = 0;
             receta.Autor = int.Parse(HttpContext.Session.GetString("Usuario"));
             receta.NombreFoto = "";
@@ -89,6 +87,10 @@ namespace Recepedia.Controllers
             {
                 return NotFound();
             }
+            var categorias = _context.Categoria.ToList();
+            ViewBag.Categorias = new SelectList(categorias, "IdCategoria", "Nom_Categoria");
+            var dificultades = _context.Dificultad.ToList();
+            ViewBag.Dificultades = new SelectList(dificultades, "IDDificultad", "NombreDificultad");
             return View(receta);
         }
 
