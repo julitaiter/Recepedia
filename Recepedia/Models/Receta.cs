@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-
+using Recepdia.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Recepedia.Models
 {
@@ -22,11 +23,14 @@ namespace Recepedia.Models
         public float CantidadPlatos { get; set; }
         [Required(ErrorMessage = "Ingrese dificultad de receta")]
         public int DificultadIdDificultad { get; set; }
-        [Required(ErrorMessage = "Ingrese ingredientes de receta")]
-        public List<Ingrediente> Ingredientes { get; set; }
         [Required(ErrorMessage = "Ingrese foto de receta")]
         public string NombreFoto { get; set; }
         public int Cant_Likes { get; set; }
         public int Autor { get; set; }
+
+        public List<IngPorRec> ListarIngredientes(RecepediaContext contexto)
+        {
+            return null;// contexto.IngPorRec.Include(x => x.IdReceta).ToList();
+        }
     }
 }

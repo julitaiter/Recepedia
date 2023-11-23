@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Recepedia.Models
 {
-    public class Favorito
+    public class IngPorRec
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
-        public int IdFavorito { get; set; }
+        public int IdIngPorRec { get; set; }
         public int IdReceta { get; set; }
-        public int IdUsuario { get; set; }
+        public int IdIngrediente { get; set; }
+        public int Cantidad { get; set; }
     }
 }

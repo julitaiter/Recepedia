@@ -60,10 +60,11 @@ namespace Recepedia.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IDReceta,NombreReceta,CategoriaIdCategoria,Preparacion,TiempoPreparacion,CantidadPlatos,DificultadIdDificultad,Ingredientes,NombreFoto,Cant_Likes,Autor")] Receta receta)
+        public async Task<IActionResult> Create([Bind("IDReceta,NombreReceta,CategoriaIdCategoria,Preparacion,TiempoPreparacion,CantidadPlatos,DificultadIdDificultad,NombreFoto,Cant_Likes,Autor")] Receta receta)
         {
             receta.Cant_Likes = 0;
-            receta.Autor = int.Parse(HttpContext.Session.GetString("Usuario"));
+            //receta.Autor = int.Parse(HttpContext.Session.GetString("Usuario")!);
+            receta.Autor = 3;
             receta.NombreFoto = "";
             if (ModelState.IsValid)
             {
