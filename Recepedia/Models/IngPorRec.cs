@@ -10,6 +10,6 @@ namespace Recepedia.Models
         public int IdIngPorRec { get; set; }
         public int IdReceta { get; set; }
         public int IdIngrediente { get; set; }
-        public int Cantidad { get; set; }
+        public string Cantidad { get; set; }
     }
 }

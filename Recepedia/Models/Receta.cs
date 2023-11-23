@@ -24,13 +24,20 @@ namespace Recepedia.Models
         [Required(ErrorMessage = "Ingrese dificultad de receta")]
         public int DificultadIdDificultad { get; set; }
         [Required(ErrorMessage = "Ingrese foto de receta")]
-        public string NombreFoto { get; set; }
         public int Cant_Likes { get; set; }
         public int Autor { get; set; }
-
-        public List<IngPorRec> ListarIngredientes(RecepediaContext contexto)
+        public List<IngPorRec>? Ingredientes { get; set; }
+        public Receta()
         {
-            return null;// contexto.IngPorRec.Include(x => x.IdReceta).ToList();
+
+        }
+        public Receta(RecepediaContext contexto)
+        {
+            ListarIngredientes(contexto);
+        }
+        private void ListarIngredientes(RecepediaContext contexto)
+        {
+            //Ingredientes = contexto.IngPorRec.Include(x => x.IdReceta).ToList();
         }
     }
 }
