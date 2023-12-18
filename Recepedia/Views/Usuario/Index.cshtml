@@ -28,14 +28,9 @@
                 @Html.DisplayNameFor(model => model.Contraseña)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.RepetirContraseña)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Admin)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NombreFoto)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
@@ -57,15 +52,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Contraseña)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RepetirContraseña)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Admin)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreFoto)
-            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IDUsuario">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.IDUsuario">Details</a> |

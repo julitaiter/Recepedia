@@ -11,5 +11,15 @@ namespace Recepedia.Models
         public int IdReceta { get; set; }
         public int IdIngrediente { get; set; }
         public string Cantidad { get; set; }
+
+
+        public IngPorRec(int IdReceta, int IdIngrediente, string Cantidad)
+        {
+            this.IdReceta = IdReceta;
+            this.IdIngrediente = IdIngrediente;
+            this.Cantidad = Cantidad;
+        }
     }
+
+    
 }

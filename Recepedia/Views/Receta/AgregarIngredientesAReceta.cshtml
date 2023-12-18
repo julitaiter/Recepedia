@@ -1,0 +1,39 @@
+﻿@model Recepedia.Models.Ingrediente
+
+@{
+    ViewData["Title"] = "AgregarIngredientesAReceta";
+}
+
+<h1>Ingredientes de la receta</h1>
+
+<h4>Ingrediente</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AgregarIngredientes" asp-route-IDReceta="@ViewBag.IDReceta">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreIngrediente" class="control-label">Nombre del ingrediente</label>
+                <input asp-for="NombreIngrediente" class="form-control" />
+                <span asp-validation-for="NombreIngrediente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <br />
+    <a asp-action="Index">Ya subí todos los ingredientes, quiero volver al inicio</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

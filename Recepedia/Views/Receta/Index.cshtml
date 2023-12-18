@@ -4,7 +4,7 @@
     ViewData["Title"] = "Recetas";
 }
 
-<h1>TODAS LAS RECETAS</h1>
+<h1>Todas las recetas</h1>
 
 <p>
     @if (this.Context.Session.GetString("Usuario") != null)
@@ -20,22 +20,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NombreReceta)
+                Título
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Preparacion)
+                Tiempo de preparación (minutos)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TiempoPreparacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadPlatos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cant_Likes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Autor)
+                Cantidad de platos
             </th>
             <th></th>
         </tr>
@@ -47,19 +38,10 @@
                 @Html.DisplayFor(modelItem => item.NombreReceta)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Preparacion)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.TiempoPreparacion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CantidadPlatos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cant_Likes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Autor)
             </td>
             <td>
                 @if (this.Context.Session.GetString("Usuario") != null && int.Parse(this.Context.Session.GetString("Usuario")) == item.Autor)

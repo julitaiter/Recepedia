@@ -43,6 +43,19 @@ namespace Recepedia.Controllers
             }
             Usuario autor = await _context.Usuario.FindAsync(receta.Autor);
             ViewBag.NombreAutor = autor.Nombre_Usuario;
+
+            List<IngPorRec> ingXRec = _context.IngPorRec.Where(i => i.IdReceta == id).ToList();
+            List<Ingrediente> ingredientes = new List<Ingrediente>();
+
+            foreach (IngPorRec ing in ingXRec)
+            {
+                Ingrediente i = _context.Ingrediente.Find(ing.IdIngrediente);
+                ingredientes.Add(i);
+            }
+
+            ViewBag.Ingredientes = ingredientes;
+            ViewBag.Cantidad = ingXRec;
+
             return View(receta);
         }
 
@@ -70,7 +83,7 @@ namespace Recepedia.Controllers
             {
                 _context.Add(receta);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("AgregarIngredientesAReceta", new { IDReceta = receta.IDReceta });
             }
             return View(receta);
         }
@@ -171,7 +184,6 @@ namespace Recepedia.Controllers
         {
           return (_context.Receta?.Any(e => e.IDReceta == id)).GetValueOrDefault();
         }
-
         
         public async Task<IActionResult> BuscarIngredientes()
         {
@@ -303,6 +315,44 @@ namespace Recepedia.Controllers
             return View("BuscarIngredientes");
         }
 
+        public ActionResult AgregarIngredientesAReceta(int IDReceta)
+        {
+            ViewBag.IDReceta = IDReceta;
+
+            return View();
+
+        }
+
+        public async Task<IActionResult> AgregarIngredientes(int IDReceta, [Bind("NombreIngrediente, Cantidad")] Ingrediente ing)
+        {
+            bool existeIng = false;
+            List<Ingrediente> ingredientes = _context.Ingrediente.ToList();
+            int i = 0;
+
+            while (!existeIng && i < ingredientes.Count)
+            {
+                existeIng = ingredientes[i].NombreIngrediente.ToLower().Equals(ing.NombreIngrediente.ToLower());
+                i++;
+            }
+
+            if (!existeIng)
+            {
+                _context.Add(ing);
+                await _context.SaveChangesAsync();
+            }
+
+            var ingNuevo = await _context.Ingrediente.FirstOrDefaultAsync(i => i.NombreIngrediente == ing.NombreIngrediente);
+
+            IngPorRec ingXReceta = new IngPorRec(IDReceta, ingNuevo.IDIngrediente, ingNuevo.Cantidad);
+
+            _context.Add(ingXReceta);
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction("AgregarIngredientesAReceta", new {IDReceta = IDReceta});
+
+        }
     }
 
 }

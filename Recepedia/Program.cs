@@ -40,7 +40,7 @@ namespace Recepedia
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Receta}/{action=Index}/{id?}");
 
             app.UseSession();
             app.Run();
