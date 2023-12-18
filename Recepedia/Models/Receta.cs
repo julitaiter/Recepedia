@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web;
 using Recepdia.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
 
 namespace Recepedia.Models
 {
@@ -26,18 +27,27 @@ namespace Recepedia.Models
         [Required(ErrorMessage = "Ingrese foto de receta")]
         public int Cant_Likes { get; set; }
         public int Autor { get; set; }
-        public List<IngPorRec>? Ingredientes { get; set; }
         public Receta()
         {
 
         }
         public Receta(RecepediaContext contexto)
         {
-            ListarIngredientes(contexto);
+            Ingredientes(contexto);
         }
-        private void ListarIngredientes(RecepediaContext contexto)
+        public List<Ingrediente> Ingredientes(RecepediaContext contexto)
         {
-            //Ingredientes = contexto.IngPorRec.Include(x => x.IdReceta).ToList();
+            List<IngPorRec> lista = contexto.IngPorRec.Where(i => i.IdReceta == IDReceta).ToList();
+
+            List<Ingrediente> ingredientes = new List<Ingrediente>();
+
+            foreach (IngPorRec ingXRec in lista)
+            {
+                ingredientes.Add(contexto.Ingrediente.Find(ingXRec.IdIngrediente));
+            }
+
+            return ingredientes;
+
         }
     }
 }

@@ -89,22 +89,7 @@
                 </select>
                 <span asp-validation-for="DificultadIdDificultad" class="text-danger"></span>
             </div>
-            <label asp-for="Ingredientes" class="control-label">Ingredientes</label>
-            <div class="row2">
-                <div class="form-inline" id="_Div1">
-                    <div style="clear:both">
-                        <input asp-for="Ingredientes" class="CantidadIngrediente_SubirReceta" name="_Cantidad1" id="_Cantidad1" type="text" placeholder="Cantidad" spellcheck="true" required />
-                    </div>
-                    <div class="col-md-2">
-                        <input asp-for="Ingredientes" class="NombreIngrediente_SubirReceta" name="_Nombre1" id="_Nombre1" type="text" placeholder="Nombre del ingrediente" spellcheck="true" required />
-                    </div>
-                </div>
-            </div>
-                <div class="row2" id="ingredientes">
-            </div>
-            <div class="btnAgregar_SubirReceta">
-                <div><input type="button" class="btn btn-success" id="add_ingrediente()" onClick="addIngrediente()" value="+" /> <input type="button" class="btn btn-danger" id="remove_ingrediente()" onClick="RemoveIngrediente()" value="-" /></div>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="Preparacion" class="control-label"></label>
                 <textarea asp-for="Preparacion" class="form-control" ></textarea>

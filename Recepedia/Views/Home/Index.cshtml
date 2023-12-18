@@ -59,21 +59,9 @@
                                         @Html.ActionLink("Editar receta", "ModificarReceta", "Home", new { IDLaReceta = LaReceta.IDReceta }, null)<br />
                                         </div>
                                     }
-                                    Usuario usuario = Usuario.TraerUsuarioPorId(ViewBag.Context, id);
-                                    usuario.Favoritos = Usuario.TraerFavoritos(ViewBag.Context, id);
-                                    if (usuario.Favoritos.Contains(LaReceta))
-                                    {
-                                        <a href="@Url.Action("Favoritos", "Home", new { IDRecetaFav = LaReceta.IDReceta, IdUsu= usuario.IDUsuario, modo = "Eliminar", view = "Index"})"><img src="~/Content/Fotos/Otros/Heart_Icon_Filled.png" alt="Heart_Icon_Filled" /></a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("Favoritos", "Home", new { IDRecetaFav = LaReceta.IDReceta, IdUsu= usuario.IDUsuario, modo = "Insertar", view = "Index"})"><img src="~/Content/Fotos/Otros/Heart_Icon.png" alt="Heart_Icon" /></a>
-                                    }
+                                    
                                 }
-                                else
-                                {
-                                    <a href="@Url.Action("Login", "Usuario")"><img src="~/Content/Fotos/Otros/Heart_Icon.png" alt="Agregar a Favoritos" /></a>
-                                }
+                                
 
                             </div>
                         </div>

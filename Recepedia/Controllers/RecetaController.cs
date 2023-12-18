@@ -41,7 +41,8 @@ namespace Recepedia.Controllers
             {
                 return NotFound();
             }
-
+            Usuario autor = await _context.Usuario.FindAsync(receta.Autor);
+            ViewBag.NombreAutor = autor.Nombre_Usuario;
             return View(receta);
         }
 
@@ -170,5 +171,138 @@ namespace Recepedia.Controllers
         {
           return (_context.Receta?.Any(e => e.IDReceta == id)).GetValueOrDefault();
         }
+
+        
+        public async Task<IActionResult> BuscarIngredientes()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> BusqXIng(string Buscar, string Eliminar, List<String> ListaActual, List<Receta> RecetasActuales)
+        {
+            ViewBag.IngredientesBuscados = "";
+            ViewBag.MisRecetasEncontradas = "";
+            ViewBag.CantRecetasEncontradas = 0;
+
+            List<string> Lista;
+            if (ListaActual == null)
+            {
+                Lista = new List<string>();
+            }
+            else
+            {
+                Lista = (List<string>)ListaActual;
+            }
+
+            if (Buscar != null)
+            {
+                if (!Lista.Contains(Buscar))
+                {
+                    Lista.Add(Buscar);
+                }
+            }
+
+            if (Eliminar != null)
+            {
+                Lista.Remove(Eliminar);
+            }
+
+            ListaActual = Lista;
+            ViewBag.IngredientesBuscados = Lista;
+
+            List<Receta> LasRecetasEncontradas = new List<Receta>();
+            RecetasActuales = new List<Receta>();
+
+            ViewBag.CantRecetasEncontradas = LasRecetasEncontradas.Count();
+
+            List<List<Receta>> TodasLasRecetas = new List<List<Receta>>();
+            List<Receta> RecetasAMostrar = new List<Receta>();
+            bool Repetido = false;
+            int i = 0;
+            int Coincidencias = 0;
+
+            foreach (string ElIngrediente in Lista)
+            {
+                var ingrediente = await _context.Ingrediente.FirstOrDefaultAsync(i => i.NombreIngrediente.ToLower() == Buscar.ToLower());
+                List<IngPorRec> lista = _context.IngPorRec.Where(i => i.IdReceta == ingrediente.IDIngrediente).ToList();
+                List<Receta> recetaXIng = new List<Receta>();
+
+                foreach (var ing in lista)
+                {
+                    var receta = await _context.Receta.FirstOrDefaultAsync(r => r.IDReceta == ing.IdReceta);
+                    recetaXIng.Add(receta);
+                }
+                TodasLasRecetas.Add(recetaXIng);
+              
+            }
+
+            foreach (List<Receta> ListaRecetas in TodasLasRecetas)
+            {
+                foreach (Receta UnaReceta in ListaRecetas)
+                {
+                    Coincidencias = 0;
+                    Repetido = false;
+
+                    foreach (Ingrediente UnIngrediente in UnaReceta.Ingredientes(_context))
+                    {
+                        i = 0;
+                        if (Coincidencias != Lista.Count() && Lista.Count() != 0)
+                        {
+                            do
+                            {
+                                if (UnIngrediente.NombreIngrediente.ToLower() == Lista[i].ToLower())
+                                {
+                                    Coincidencias++;
+                                }
+                                i++;
+
+                            } while (i - 1 != Lista.Count() - 1);
+                        }
+
+                       
+                    }
+
+                    if (Coincidencias == Lista.Count() && Lista.Count() != 0)
+                    {
+                        foreach (Receta LaReceta in RecetasAMostrar)
+                        {
+                            if (LaReceta.NombreReceta.ToLower() == UnaReceta.NombreReceta.ToLower())
+                            {
+                                Repetido = true;
+                            }
+
+                        } //Busqueda de repeticiones en las recetas (Descarte de recetas repetidas)
+
+                        if (Repetido == false)
+                        {
+                            RecetasAMostrar.Add(UnaReceta);
+                            Coincidencias = 0;
+                        }
+                    }
+                }
+            }
+
+            if (RecetasAMostrar.Count != 0)
+            {
+                foreach (Receta UnaReceta in RecetasAMostrar)
+                {
+                    LasRecetasEncontradas.Add(UnaReceta);
+                }
+            }
+
+            
+            ViewBag.MisRecetasEncontradas = LasRecetasEncontradas;
+            ViewBag.CantRecetasEncontradas = LasRecetasEncontradas.Count();
+
+            return View("BuscarIngredientes");
+        }
+        public async Task<IActionResult> VaciarLista(List<string> lista)
+        {
+            lista = null;
+            ViewBag.IngredientesBuscados = lista;
+            return View("BuscarIngredientes");
+        }
+
     }
+
 }
