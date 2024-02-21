@@ -236,7 +236,7 @@ namespace Recepedia.Controllers
             foreach (string ElIngrediente in Lista)
             {
                 var ingrediente = await _context.Ingrediente.FirstOrDefaultAsync(i => i.NombreIngrediente.ToLower() == Buscar.ToLower());
-                List<IngPorRec> lista = _context.IngPorRec.Where(i => i.IdReceta == ingrediente.IDIngrediente).ToList();
+                List<IngPorRec> lista = _context.IngPorRec.Where(i => i.IdIngrediente == ingrediente.IDIngrediente).ToList();
                 List<Receta> recetaXIng = new List<Receta>();
 
                 foreach (var ing in lista)

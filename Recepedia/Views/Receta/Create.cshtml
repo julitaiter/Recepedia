@@ -4,67 +4,50 @@
     ViewData["Title"] = "Create";
 }
 <head>
-    <script>
-        a = 1;
-        function addIngrediente() {
-
-            //Valida campos (Ignora el primero)
-            if (a == 1) {
-                var inputs = document.getElementById("_Div1").querySelectorAll("input");
-                var Vacios = false;
-                for (var ElInput in inputs) {
-                    Valor = inputs[ElInput];
-                    if (typeof Valor == "object") {
-                        if (Valor.value == "") {
-                            Vacios = true;
-                        }
-                    }
-                }
-            }
-            else {
-                var inputs = document.getElementById("ingredientes").querySelectorAll("input");
-                var Vacios = false;
-                for (var ElInput in inputs) {
-                    Valor = inputs[ElInput];
-                    if (typeof Valor == "object") {
-                        if (Valor.value == "") {
-                            Vacios = true;
-                        }
-                    }
-                }
-            }
-
-
-            if (Vacios == false) {
-                //Agrega los campos
-                a++;
-                var div = document.createElement('div');
-                div.setAttribute('class', 'form-inline');
-                div.setAttribute('id', '_Div' + a);
-                div.innerHTML = '<div style="clear:both"><input class="CantidadIngrediente_SubirReceta" name="_Cantidad' + a + '" id="_Cantidad' + a + '" type="text" placeholder="Cantidad" spellcheck="true" required/></div><div class="col-md-2"><input class="NombreIngrediente_SubirReceta" name="_Nombre' + a + '" id="_Nombre' + a + '" type="text" placeholder="Nombre del ingrediente" spellcheck="true" required/></div><br/><br/><br/><br/>';
-                document.getElementById('ingredientes').appendChild(div); document.getElementById('ingredientes').appendChild(div);
-            }
-            else {
-                alert("Ingrese el ingrediente correctamente");
-            }
-        }
-
-        function RemoveIngrediente() {
-
-            if (a > 1) {
-                $('#_Cantidad' + a).remove();
-                $('#_Nombre' + a).remove();
-                $('#_Div' + a).remove();
-                a--;
-            }
-        }
-
-    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/animate.css">
+    <link rel="stylesheet" href="~/Content/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/Content/magnific-popup.css">
+    <link rel="stylesheet" href="~/Content/aos.css">
+    <link rel="stylesheet" href="~/Content/ionicons.css">
+    <link rel="stylesheet" href="~/Content/flaticon.css">
+    <link rel="stylesheet" href="~/Content/icomoon.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/vendor/daterangepicker/daterangepicker.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/Content/util.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/main3.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="~/Content/Photo.css" TYPE="text/css">
 
 </head>
-<h1>Create</h1>
+<h1>Nueva Receta</h1>
 
-<h4>Receta</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
